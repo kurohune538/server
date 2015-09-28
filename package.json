@@ -1,0 +1,35 @@
+{
+  "name": "yokome-server",
+  "version": "0.0.0",
+  "description": "Yokome server",
+  "scripts": {
+    "start": "node ./bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "4.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yokome-yokone/server.git"
+  },
+  "author": "rot1024",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/yokome-yokone/server/issues"
+  },
+  "homepage": "https://github.com/yokome-yokone/server#readme",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "cookie-parser": "^1.4.0",
+    "express": "^4.13.3",
+    "jade": "^1.11.0",
+    "minimist": "^1.2.0",
+    "morgan": "^1.6.1",
+    "serve-favicon": "^2.3.0",
+    "st": "^0.5.5"
+  },
+  "devDependencies": {
+    "eslint": "^1.5.1"
+  }
+}

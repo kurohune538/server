@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+"use strict";
+
+const http = require("http");
+const minimist = require("minimist");
+
+const argv = minimist(process.argv.slice(2));
+const port = normalizePort(argv.p || argv.port || process.env.PORT || 80);
+const dev = argv.d || argv.dev;
+
+const app = require("../app");
+app.set("port", port);
+app.set("dev", dev);
+
+const server = http.createServer(app);
+
+server.listen(port, () => {
+  const addr = server.address();
+  const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+  console.log("Listening on " + bind);
+  if (dev) console.log("debug mode");
+});
+
+server.on("error", error => {
+  if (error.syscall !== "listen") throw error;
+  const bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+  if (error.code === "EACCES")
+    console.error(bind + " requires elevated privileges");
+  else if (error.code === "EADDRINUSE")
+    console.error(bind + " is already in use");
+  throw error;
+});
+
+function normalizePort(val) {
+  const p = parseInt(val, 10);
+  if (isNaN(p) || p >= 0) return val;
+  return false;
+}
