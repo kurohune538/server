@@ -4,20 +4,18 @@ html
 		meta(charset="utf8")
 		title= title
 	body
-		table(.post)
-			tr
-				td
-					パスワードを記入してください
-				td
-					input(type='password')
-			tr
-				td
-					タイトルを記入してください
-				td
-					input(type='text')
-			tr
-				td
-					コメントを記入してください
-				td
-					textarea(cols='40', rows='10')
-		input(type='submit', value='送信')
+		form(method='post' action='/yokome_admin/add')
+			table.post
+				tr
+					td パスワードを記入してください
+					td
+						input(type='password' name='password')
+				tr
+					td タイトルを記入してください
+					td
+						input(type='text' name='title')
+				tr
+					td コメントを記入してください
+					td
+						textarea(cols='40', rows='10' name='comment')
+			input(type='submit', value='送信')
