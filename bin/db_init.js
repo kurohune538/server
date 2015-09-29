@@ -19,11 +19,11 @@ client.connect((err) => {
   if(err) {
     return console.error('error fetching client from pool', err);
   }
-  // client.query('CREATE TABLE users(id SERIAL PRIMARY KEY, name text, pass text, photo text)', (err, result) => {
-  //   if(err) {
-  //     return console.error('error running query', err);
-  //   }
-  //   console.log(result);
+  client.query('CREATE TABLE users(id SERIAL PRIMARY KEY, name text, pass text, photo text)', (err, result) => {
+    if(err) {
+      return console.error('error running query', err);
+    }
+    console.log(result);
     client.query('CREATE TABLE posts(id SERIAL PRIMARY KEY, user_id int, title text, photo text, description text, like_count int)', (err, result) => {
       if(err) {
         return console.error('error running query', err);
@@ -35,7 +35,7 @@ client.connect((err) => {
         }
         console.log(result);
       });
-    //});
+    });
     client.end();
   });
 });
