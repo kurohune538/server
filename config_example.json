@@ -1,0 +1,11 @@
+{
+  "db": {
+    "user": "",
+    "password": "",
+    "host": "",
+    "port": 0,
+    "database": "",
+    "ssl": true
+  },
+  "defaultPort": 80
+}
