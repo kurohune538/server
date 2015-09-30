@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 "use strict";
 
+const path = require("path");
 const http = require("http");
 const minimist = require("minimist");
 
+const config = require(path.join(__dirname, "..", "config.json"));
 const argv = minimist(process.argv.slice(2));
-const port = normalizePort(argv.p || argv.port || process.env.PORT || 80);
+const port = normalizePort(argv.p || argv.port || process.env.PORT || config.defaultPort || 80);
 const dev = argv.d || argv.dev;
 
 const app = require("../app");
