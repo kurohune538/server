@@ -1,10 +1,8 @@
 "use strict";
 
 const path = require('path');
-const pg = require('pg');
+const pgp = require('pg-promise')();
 
 const config = require(path.join(__dirname, '..', 'config.json'));
 
-const client = new pg.Client(config.db);
-
-module.exports = client;
+module.exports = pgp(config.db);
