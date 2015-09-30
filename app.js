@@ -35,21 +35,21 @@ app.post("/yokome_admin/add", (req, res) => {
         return console.error('error running query', err2);
       }
       console.log(result);
-      // if(result.rows.length > 1){
-      client.query(
-        'INSERT INTO posts(title, description, like_count) VALUES($1, $2, $3)',
-        [req.body.title, req.body.comment, 0],
-        (err3, result3) => {
-          if (err3) {
-            return console.error('error running query', err3);
-          }
-          console.log(result3);
-          client.end();
-          res.send("OK");
-        });
-      // } else {
-      //   return console.error('パスワードが違います', err);
-      // }
+      if (result.rowCount > 0 && result.rows[0].id !== void 0) {
+        client.query(
+          'INSERT INTO posts(user_id, title, description, like_count) VALUES($1, $2, $3, $4)',
+          [result.rows[0].id, req.body.title, req.body.comment, 0],
+          (err3, result3) => {
+            if (err3) {
+              return console.error('error running query', err3);
+            }
+            console.log(result3);
+            client.end();
+            res.send("OK");
+          });
+      } else {
+        res.send("password invalid");
+      }
     });
 });
 
