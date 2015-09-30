@@ -11,7 +11,7 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
-const client = require("./util/db");
+const db = require("./util/db");
 
 app.set("view engine", "jade");
 app.set("views", path.join(__dirname, "views"));
@@ -26,30 +26,20 @@ app.get("/yokome_admin", (req, res) => {
 });
 
 app.post("/yokome_admin/add", (req, res) => {
-  client.connect();
-  client.query(
-    'SELECT id FROM users WHERE pass=$1',
-    [req.body.password],
-    (err2, result) => {
-      if (err2) {
-        return console.error('error running query', err2);
+  db.one('SELECT id FROM users WHERE pass=$1', req.body.password)
+    .then(data => {
+      if (data.id !== void 0) {
+        return db.query('INSERT INTO posts(user_id, title, description, like_count) VALUES($1, $2, $3, $4)',
+        [data.id, req.body.title, req.body.comment, 0]);
       }
-      console.log(result);
-      if (result.rowCount > 0 && result.rows[0].id !== void 0) {
-        client.query(
-          'INSERT INTO posts(user_id, title, description, like_count) VALUES($1, $2, $3, $4)',
-          [result.rows[0].id, req.body.title, req.body.comment, 0],
-          (err3, result3) => {
-            if (err3) {
-              return console.error('error running query', err3);
-            }
-            console.log(result3);
-            client.end();
-            res.send("OK");
-          });
-      } else {
-        res.send("password invalid");
-      }
+    })
+    .then(data => {
+      //success
+      res.send("OK");
+    })
+    .catch(error => {
+      console.error(error);
+      res.send("error");
     });
 });
 
