@@ -43,6 +43,22 @@ app.post("/yokome_admin/add", (req, res) => {
     });
 });
 
+app.get("/yokome_admin/post/show", (req, res) => {
+  db.query(`SELECT p.title,p.photo,p.description,p.like_count,p.created_at,u.name,u.photo
+  FROM posts AS p
+  LEFT JOIN users AS u ON p.user_id=u.id
+  ORDER BY p.id`)
+    .then(data => {
+      res.json(data);
+    })
+    .catch((err) => {
+      console.error("could not select posts", err);
+      res.statusCode("404").json({
+        error: 'could not select posts'
+      });
+    })
+});
+
 app.use(st({
   path: path.join(__dirname, "static"),
   url: "/",
